@@ -964,11 +964,13 @@ Player::SongBorder() noexcept
 	ActivateDecoder();
 
 	const bool border_pause = pc.ApplyBorderPause();
+	FormatDefault(player_domain, "border_pause: \"%d\"", border_pause);
 	if (border_pause) {
 		paused = true;
 		pc.listener.OnBorderPause();
 		pc.outputs.Pause();
 		idle_add(IDLE_PLAYER);
+	    FormatDefault(player_domain, "paused, hopefully");
 	}
 }
 

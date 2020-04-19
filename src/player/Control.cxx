@@ -21,9 +21,13 @@
 #include "Outputs.hxx"
 #include "Idle.hxx"
 #include "song/DetachedSong.hxx"
+#include "util/Domain.hxx"
+#include "Log.hxx"
 
 #include <algorithm>
 #include <cassert>
+
+static constexpr Domain player_domain("player");
 
 PlayerControl::PlayerControl(PlayerListener &_listener,
 			     PlayerOutputs &_outputs,
@@ -160,6 +164,7 @@ PlayerControl::LockSetPause(bool pause_flag) noexcept
 void
 PlayerControl::LockSetBorderPause(bool _border_pause) noexcept
 {
+	FormatDefault(player_domain, "LockSetBorderPause %d", _border_pause);
 	const std::lock_guard<Mutex> protect(mutex);
 	border_pause = _border_pause;
 }

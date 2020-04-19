@@ -495,6 +495,7 @@ Player::OpenOutput() noexcept
 	}
 
 	output_open = true;
+	FormatDefault(player_domain, "Unpaused in Player::OpenOutput()");
 	paused = false;
 
 	pc.state = PlayerState::PLAY;
@@ -720,6 +721,9 @@ Player::ProcessCommand(std::unique_lock<Mutex> &lock) noexcept
 
 	case PlayerCommand::PAUSE:
 		paused = !paused;
+		if(!paused) {
+			FormatDefault(player_domain, "Unpaused with PlayerCommand::PAUSE");
+		}
 		if (paused) {
 			pc.state = PlayerState::PAUSE;
 
@@ -970,7 +974,7 @@ Player::SongBorder() noexcept
 		pc.listener.OnBorderPause();
 		pc.outputs.Pause();
 		idle_add(IDLE_PLAYER);
-	    FormatDefault(player_domain, "paused, hopefully");
+		FormatDefault(player_domain, "paused on song border, hopefully");
 	}
 }
 
